@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container my-5">
+    <h2 class="text-center mb-4">About Us</h2>
+
+    <div class="row">
+        <div class="col-md-6">
+            <img src="{% static 'images/ags.jpg' %}" class="img-fluid rounded" alt="Agriculture Support">
+        </div>
+        <div class="col-md-6">
+            <p class="lead">
+                At <strong>Agricultural Extension Services</strong>, we are committed to empowering farmers with the 
+                latest agricultural techniques, sustainable farming practices, and innovative solutions to enhance productivity.
+            </p>
+            <p>
+                Our team of experts provides hands-on training, research-backed insights, and personalized support to 
+                help farmers make informed decisions. We believe in bridging the gap between technology and agriculture 
+                to promote food security and economic growth.
+            </p>
+        </div>
+    </div>
+
+    <hr class="my-5">
+
+    <!-- Our Mission and Vision Section -->
+    <div class="row text-center">
+        <div class="col-md-6">
+            <h3>🌱 Our Mission</h3>
+            <p>To provide high-quality agricultural extension services that improve farm productivity, sustainability, and livelihoods.</p>
+        </div>
+        <div class="col-md-6">
+            <h3>🌍 Our Vision</h3>
+            <p>To be the leading provider of innovative agricultural solutions that create a food-secure and prosperous world.</p>
+        </div>
+    </div>
+
+    <hr class="my-5">
+
+    <!-- Core Values Section -->
+    <h3 class="text-center mb-4">🚜 Our Core Values</h3>
+    <div class="row">
+        <div class="col-md-4 text-center">
+            <h5>📚 Knowledge Sharing</h5>
+            <p>We ensure farmers receive up-to-date information and training for better decision-making.</p>
+        </div>
+        <div class="col-md-4 text-center">
+            <h5>🌾 Sustainability</h5>
+            <p>We promote eco-friendly farming techniques to preserve the environment for future generations.</p>
+        </div>
+        <div class="col-md-4 text-center">
+            <h5>🤝 Community Engagement</h5>
+            <p>We work closely with farmers, stakeholders, and researchers to build strong agricultural communities.</p>
+        </div>
+    </div>
+
+    <hr class="my-5">
+
+    <!-- Call to Action -->
+    <div class="text-center">
+        <h3>📩 Get in Touch</h3>
+        <p>Want to learn more about how we can support your farming journey? <a href="{% url 'contact' %}" class="btn btn-success">Contact Us</a></p>
+    </div>
+</div>
+{% endblock %}

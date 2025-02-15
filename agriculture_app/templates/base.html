@@ -1,0 +1,120 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Agricultural Extension Services</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        let elements = document.querySelectorAll('.fade-in-left, .fade-in-right');
+        
+        function checkVisibility() {
+            elements.forEach((element) => {
+                let position = element.getBoundingClientRect().top;
+                if (position < window.innerHeight - 100) {
+                    element.classList.add("visible");
+                }
+            });
+        }
+        
+        window.addEventListener("scroll", checkVisibility);
+        checkVisibility();
+    });
+</script>
+
+
+    
+<body>
+    {% if request.resolver_match.url_name != 'login' %}
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-success">
+        <div class="container">
+            <a class="navbar-brand" href="/">Agriculture Extension</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.path == '/' %}active{% endif %}" href="/">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.path == '/about/' %}active{% endif %}" href="/about/">About Us</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.path == '/projects/' %}active{% endif %}" href="/projects/">Projects</a>
+                    </li>
+
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Farm Management
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="{% url 'farm_dashboard' %}">Dashboard</a></li>
+                            <li><a class="dropdown-item" href="{% url 'record_produce' %}">Record Produce</a></li>
+                            <li><a class="dropdown-item" href="{% url 'poultry_management' %}">Poultry Management</a></li>
+                        </ul>
+                    </li>
+                    
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Farm Products
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a class="dropdown-item" href="{% url 'home' %}">Home</a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="{% url 'view_cart' %}">
+                                    <i class="bi bi-cart"></i> Cart 
+                                    <span class="badge bg-secondary">{{ cart_items.count }}</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    
+                    <li class="nav-item">
+                        <form id="logout-form" action="{% url 'logout' %}" method="POST" class="d-inline">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-link nav-link" style="border: none; background: none; padding: 0; color: white;">
+                                Logout
+                            </button>
+                        </form>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+{% if messages %}
+<div class="container mt-3">
+    {% for message in messages %}
+    <div class="alert alert-info alert-dismissible fade show" role="alert">
+        {{ message }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    {% endfor %}
+</div>
+{% endif %}
+
+    {% block content %} {% endblock %}
+    
+
+    <!-- Footer -->
+    <footer class="bg-success text-white text-center py-4">
+        <p>Copyright © 2025 | Agricultural Extension Services</p>
+    </footer>
+    {% endif %}
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+
+</body>
+</html>

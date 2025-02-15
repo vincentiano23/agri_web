@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2 class="text-center mb-4">Record Produce</h2>
+    <form method="POST">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label for="date" class="form-label">Date of Harvest</label>
+            <input type="date" class="form-control" id="date" name="date" required>
+        </div>
+        <div class="mb-3">
+            <label for="produce_type" class="form-label">Type of Produce</label>
+            <select class="form-select" id="produce_type" name="produce_type" required>
+                <option selected>Select Produce Type</option>
+                <option value="maize">Maize</option>
+                <option value="beans">Beans</option>
+                <option value="vegetables">Vegetables</option>
+            </select>
+        </div>
+        <div class="mb-3">
+            <label for="quantity" class="form-label">Quantity (in Kg)</label>
+            <input type="number" class="form-control" id="quantity" name="quantity" required>
+        </div>
+        <button type="submit" class="btn btn-success">Record Produce</button>
+    </form>
+</div>
+{% endblock %}

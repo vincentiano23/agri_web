@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container">
+    <h1 class="text-center my-4">Our Innovative Projects</h1>
+
+    <!-- Incubator Project -->
+    <div class="card mb-4">
+        <div class="row g-0 align-items-center">
+            <div class="col-md-6 fade-in-left">
+                <div id="incubatorCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="3000">
+                    <div class="carousel-inner">
+                        <div class="carousel-item active">
+                            <img src="{% static 'images/img13.jpeg' %}" class="d-block w-100 card-img-top" alt="Incubator Project">
+                        </div>
+                        <div class="carousel-item">
+                            <img src="{% static 'images/img12.jpeg' %}" class="d-block w-100 card-img-top" alt="Incubator Project">
+                        </div>
+                        <div class="carousel-item">
+                            <img src="{% static 'images/img14.jpeg' %}" class="d-block w-100 card-img-top" alt="Incubator Project">
+                        </div>
+                    </div>
+                    <a class="carousel-control-prev" href="#incubatorCarousel" role="button" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    </a>
+                    <a class="carousel-control-next" href="#incubatorCarousel" role="button" data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    </a>
+                </div>
+            </div>
+            <div class="col-md-6 fade-in-right">
+                <div class="card-body">
+                    <h2 class="card-title">Enhancing Poultry Farming Through an Affordable and Efficient Incubator.</h2>
+                    <p class="card-text">
+                        This project aims to develop a cost-effective and efficient incubator to support poultry farming while providing a hands-on STEM learning experience for students. Designed for use in educational and small-scale farming environments, the initiative engages students in every stage of the process—from research and design to construction and testing. By integrating practical learning with real-world agricultural applications, the project fosters critical thinking, teamwork, innovation, and problem-solving skills, preparing students for future careers in science, engineering, and agribusiness.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tire Planting Project -->
+    <div class="card mb-4">
+        <div class="row g-0 align-items-center">
+            <div class="col-md-6 fade-in-left order-md-2">
+                <div id="tireCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="3000">
+                    <div class="carousel-inner">
+                        <div class="carousel-item active">
+                            <img src="{% static 'images/img10.jpeg' %}" class="d-block w-100 card-img-top" alt="Tire Planting Project">
+                        </div>
+                        <div class="carousel-item">
+                            <img src="{% static 'images/img11.jpeg' %}" class="d-block w-100 card-img-top" alt="Tire Planting Project">
+                        </div>
+                        <div class="carousel-item">
+                            <img src="{% static 'images/img8.jpeg' %}" class="d-block w-100 card-img-top" alt="Tire Planting Project">
+                        </div>
+                    </div>
+                    <a class="carousel-control-prev" href="#tireCarousel" role="button" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    </a>
+                    <a class="carousel-control-next" href="#tireCarousel" role="button" data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    </a>
+                </div>
+            </div>
+            <div class="col-md-6 fade-in-right order-md-1">
+                <div class="card-body">
+                    <h2 class="card-title">Re-Use of Tires as Planting Sites</h2>
+                    <p class="card-text">
+                        The project proposes repurposing discarded vehicle tires as sustainable planting sites for kale cultivation in secondary schools. This initiative aims to address environmental sustainability
+                        by recycling waste materials and enhancing learners' agricultural knowledge through hands-on involvement.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

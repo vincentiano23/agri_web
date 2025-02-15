@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container my-5">
+    <h2 class="text-center mb-4">📞 Contact Us</h2>
+
+    <!-- Display Feedback Messages -->
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert {% if message.tags %}alert-{{ message.tags }}{% else %}alert-success{% endif %} alert-dismissible fade show" role="alert">
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    <div class="row">
+        <!-- Contact Details -->
+        <div class="col-md-6">
+            <h4><i class="fas fa-map-marker-alt"></i> Our Office</h4>
+            <p><strong>Address:</strong> Agricultural Extension Services, Nairobi, Kenya</p>
+            <p><i class="fas fa-envelope"></i> <strong>Email:</strong> fredmwendwapaul@gmail.com</p>
+            <p><i class="fas fa-phone"></i> <strong>Phone:</strong> +254 746772730</p>
+
+            <!-- Social Media Links -->
+            <h4 class="mt-4"><i class="fas fa-share-alt"></i> Connect with Us</h4>
+            <p>Follow us on our social media platforms:</p>
+            <a href="https://www.facebook.com/yourpage" target="_blank" class="btn btn-primary me-2">
+                <i class="fab fa-facebook"></i> Facebook
+            </a>
+            <a href="https://wa.me/254700123456" target="_blank" class="btn btn-success me-2">
+                <i class="fab fa-whatsapp"></i> WhatsApp
+            </a>
+            <a href="https://twitter.com/yourhandle" target="_blank" class="btn btn-info me-2">
+                <i class="fab fa-twitter"></i> Twitter
+            </a>
+            <a href="https://www.instagram.com/yourprofile" target="_blank" class="btn btn-danger me-2">
+                <i class="fab fa-instagram"></i> Instagram
+            </a>
+        </div>
+
+        <!-- Contact Form -->
+        <div class="col-md-6">
+            <h4><i class="fas fa-paper-plane"></i> Send Us a Message</h4>
+            <form method="POST" action="{% url 'contact' %}">
+                {% csrf_token %}
+                <div class="mb-3">
+                    <label for="name" class="form-label"><i class="fas fa-user"></i> Your Name</label>
+                    <input type="text" class="form-control" id="name" name="name" required>
+                </div>
+                <div class="mb-3">
+                    <label for="email" class="form-label"><i class="fas fa-envelope"></i> Your Email</label>
+                    <input type="email" class="form-control" id="email" name="email" required>
+                </div>
+                <div class="mb-3">
+                    <label for="message" class="form-label"><i class="fas fa-comment"></i> Your Message</label>
+                    <textarea class="form-control" id="message" name="message" rows="4" required></textarea>
+                </div>
+                <button type="submit" class="btn btn-success"><i class="fas fa-paper-plane"></i> Submit</button>
+            </form>
+        </div>
+    </div>
+
+    <hr class="my-5">
+
+    {% comment %} <!-- Google Map Embed -->
+    <h3 class="text-center"><i class="fas fa-map-marked-alt"></i> Our Location</h3>
+    <div class="text-center">
+        <iframe 
+            src="https://www.google.com/maps/embed/v1/place?key=YOUR_GOOGLE_MAPS_API_KEY&q=Nairobi,Kenya"
+            width="100%" height="400" style="border:0;" allowfullscreen="" loading="lazy">
+        </iframe>
+    </div> 
+    {% endcomment %}
+</div>
+{% endblock %}

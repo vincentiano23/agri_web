@@ -1,0 +1,106 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<div class="container mt-4">
+    <h2 class="text-center mb-4">Poultry Management</h2>
+
+    {% if messages %}
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        {% for message in messages %}
+            {{ message }}
+        {% endfor %}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    {% endif %}
+
+    <ul class="nav nav-tabs" id="poultryTab" role="tablist">
+        <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="inventory-tab" data-bs-toggle="tab" data-bs-target="#inventory" type="button" role="tab">Poultry Inventory</button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="egg-production-tab" data-bs-toggle="tab" data-bs-target="#egg-production" type="button" role="tab">Egg Production</button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="disease-management-tab" data-bs-toggle="tab" data-bs-target="#disease-management" type="button" role="tab">Disease Management</button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="advanced-tech-tab" data-bs-toggle="tab" data-bs-target="#advanced-tech" type="button" role="tab">Advanced Technology</button>
+        </li>
+    </ul>
+
+    <div class="tab-content mt-3" id="poultryTabContent">
+
+        <!-- Poultry Inventory -->
+        <div class="tab-pane fade show active" id="inventory" role="tabpanel">
+            <h4>Poultry Inventory</h4>
+            <form method="POST">
+                {% csrf_token %}
+                <div class="mb-3">
+                    <label for="broilers_male" class="form-label">Broilers (Male)</label>
+                    <input type="number" class="form-control" id="broilers_male" name="broilers_male" value="{{ inventory.broilers_male }}" required>
+                </div>
+                <div class="mb-3">
+                    <label for="broilers_female" class="form-label">Broilers (Female)</label>
+                    <input type="number" class="form-control" id="broilers_female" name="broilers_female" value="{{ inventory.broilers_female }}" required>
+                </div>
+                <div class="mb-3">
+                    <label for="layers_female" class="form-label">Layers (Females Only)</label>
+                    <input type="number" class="form-control" id="layers_female" name="layers_female" value="{{ inventory.layers_female }}" required>
+                </div>
+                <div class="mb-3">
+                    <label for="kienyeji_male" class="form-label">Kienyeji (Male)</label>
+                    <input type="number" class="form-control" id="kienyeji_male" name="kienyeji_male" value="{{ inventory.kienyeji_male }}" required>
+                </div>
+                <div class="mb-3">
+                    <label for="kienyeji_female" class="form-label">Kienyeji (Female)</label>
+                    <input type="number" class="form-control" id="kienyeji_female" name="kienyeji_female" value="{{ inventory.kienyeji_female }}" required>
+                </div>
+                <button type="submit" class="btn btn-success">Update Inventory</button>
+            </form>
+        </div>
+
+        <!-- Egg Production -->
+        <div class="tab-pane fade" id="egg-production" role="tabpanel">
+            <h4>Egg Production</h4>
+            <form method="POST">
+                {% csrf_token %}
+                <div class="mb-3">
+                    <label for="eggs_raised" class="form-label">Total Eggs Raised Today</label>
+                    <input type="number" class="form-control" id="eggs_raised" name="eggs_raised" required>
+                </div>
+                <button type="submit" class="btn btn-success">Record Egg Production</button>
+            </form>
+            <hr>
+            <h5>Today's Egg Production:</h5>
+            <p>{{ egg_production.total }} Eggs</p>
+        </div>
+
+        <!-- Disease Management -->
+        <div class="tab-pane fade" id="disease-management" role="tabpanel">
+            <h4>Disease Management</h4>
+            <div class="accordion" id="diseaseAccordion">
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="newcastle-heading">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#newcastle" aria-expanded="true">
+                            Newcastle Disease
+                        </button>
+                    </h2>
+                    <div id="newcastle" class="accordion-collapse collapse show" data-bs-parent="#diseaseAccordion">
+                        <div class="accordion-body">
+                            <img src="{% static 'images/newcastle.jpg' %}" class="img-fluid" alt="Newcastle Disease">
+                            <p><strong>Symptoms:</strong> Coughing, sneezing, drop in egg production.</p>
+                            <p><strong>Control Measures:</strong> Vaccination and strict biosecurity measures.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Advanced Technology -->
+        <div class="tab-pane fade" id="advanced-tech" role="tabpanel">
+            <h4>Advanced Technology</h4>
+            <p>Coming soon: AI-powered poultry scanner to detect diseases in real-time.</p>
+        </div>
+    </div>
+</div>
+{% endblock %}

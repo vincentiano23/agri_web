@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% load widget_tweaks %}
+
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="text-center mb-4">Upload Product</h2>
+
+    <!-- Display success or error messages -->
+    {% for message in messages %}
+        <div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %}">
+            {{ message }}
+        </div>
+    {% endfor %}
+
+    <!-- Product Upload Form -->
+    <form method="POST" enctype="multipart/form-data" class="shadow p-4 rounded bg-light">
+        {% csrf_token %}
+        <!-- Explicitly render each form field -->
+        <div class="row">
+            {% for field in form %}
+                <div class="col-md-6 mb-3">
+                    <label for="{{ field.id_for_label }}" class="form-label">{{ field.label }}</label>
+                    {{ field|add_class:"form-control" }}
+                    <!-- Display field-specific errors -->
+                    {% for error in field.errors %}
+                        <div class="alert alert-danger mt-1">
+                            {{ error }}
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endfor %}
+        </div>
+        <button type="submit" class="btn btn-primary w-100">Upload Product</button>
+    </form>
+</div>
+{% endblock %}
