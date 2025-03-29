@@ -7,7 +7,7 @@ SECRET_KEY = 's$((m(t_#pr1^zzw^q!i9!tn(t!yhy28hewft@b+mq#6iketysjfsknfcf@d'
 
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1']
+ALLOWED_HOSTS = ['127.0.0.1','agri-web-ej4r.onrender.com']
 
 INSTALLED_APPS = [
     'django.contrib.admin',
