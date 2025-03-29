@@ -1,30 +1,137 @@
 {% extends 'base.html' %}
-
+{% load static %}
 {% block content %}
 <div class="container mt-4">
     <h2 class="text-center mb-4">Farm Dashboard</h2>
+
     <div class="row">
-        <div class="col-md-4">
-            <div class="card text-white bg-success mb-3">
-                <div class="card-body">
+        <!-- Total Produce -->
+        <div class="col-lg-4 col-md-6 mb-3">
+            <div class="card text-white bg-success h-100">
+                <div class="card-body text-center">
                     <h5 class="card-title">Total Produce</h5>
-                    <p class="card-text">2000 Kg</p>
+                    <p class="card-text display-6">{{ total_produce_value }} Kg</p>
                 </div>
             </div>
         </div>
-        <div class="col-md-4">
-            <div class="card text-white bg-primary mb-3">
-                <div class="card-body">
+        <!-- Total Poultry -->
+        <div class="col-lg-4 col-md-6 mb-3">
+            <div class="card text-white bg-primary h-100">
+                <div class="card-body text-center">
                     <h5 class="card-title">Total Poultry</h5>
-                    <p class="card-text">500 Birds</p>
+                    <p class="card-text display-6">{{ total_poultry }} Birds</p>
                 </div>
             </div>
         </div>
-        <div class="col-md-4">
-            <div class="card text-white bg-danger mb-3">
-                <div class="card-body">
+        <!-- Total Sales -->
+        <div class="col-lg-4 col-md-6 mb-3">
+            <div class="card text-white bg-danger h-100">
+                <div class="card-body text-center">
                     <h5 class="card-title">Total Sales</h5>
-                    <p class="card-text">Ksh 100,000</p>
+                    <p class="card-text display-6">Ksh {{ total_sales }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Record Button -->
+    <div class="text-center my-4">
+        <a href="{% url 'record_produce' %}" class="btn btn-success">+ Record New Produce</a>
+    </div>
+
+    <div class="row">
+        <!-- Poultry Inventory -->
+        <div class="col-lg-6 mb-3">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h5 class="card-title text-center">Poultry Inventory</h5>
+                    <table class="table table-bordered text-center">
+                        <thead class="table-dark">
+                            <tr>
+                                <th>Category</th>
+                                <th>Count</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for inventory in poultry_inventory %}
+                            <tr><td>Broilers (Male)</td><td>{{ inventory.broilers_male }}</td></tr>
+                            <tr><td>Broilers (Female)</td><td>{{ inventory.broilers_female }}</td></tr>
+                            <tr><td>Layers (Females)</td><td>{{ inventory.layers_female }}</td></tr>
+                            <tr><td>Kienyeji (Male)</td><td>{{ inventory.kienyeji_male }}</td></tr>
+                            <tr><td>Kienyeji (Female)</td><td>{{ inventory.kienyeji_female }}</td></tr>
+                            {% empty %}
+                            <tr><td colspan="2">No inventory records</td></tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Egg Production -->
+        <div class="col-lg-6 mb-3">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h5 class="card-title text-center">Egg Production</h5>
+                    <table class="table table-bordered text-center">
+                        <thead class="table-dark">
+                            <tr>
+                                <th>Date</th>
+                                <th>Eggs Collected</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for egg in egg_production %}
+                            <tr>
+                                <td>{{ egg.date }}</td>
+                                <td>{{ egg.total }}</td>
+                            </tr>
+                            {% empty %}
+                            <tr><td colspan="2">No records available</td></tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Total Production -->
+    <div class="row">
+        <div class="col-lg-6 mb-3">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h5 class="card-title text-center">Total Production</h5>
+                    <table class="table table-bordered text-center">
+                        <thead class="table-dark">
+                            <tr>
+                                <th>Produce Type</th>
+                                <th>Quantity (Kg)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for item in total_produce_list %}
+                            <tr>
+                                <td>{{ item.produce_type }}</td>
+                                <td>{{ item.quantity }}</td>
+                            </tr>
+                            {% empty %}
+                            <tr><td colspan="2">No produce records</td></tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Optional: Future Graphs -->
+    <div class="row">
+        <div class="col-12">
+            <div class="card mb-3">
+                <div class="card-body">
+                    <h5 class="card-title text-center">Farm Statistics (Graph View - Coming Soon)</h5>
+                    <p class="text-center text-muted">Graphs for visualization of farm data will be added here.</p>
                 </div>
             </div>
         </div>

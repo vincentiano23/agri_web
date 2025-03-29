@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils import timezone
+from django.utils.timezone import now
 from django.contrib.auth.models import User
 
 
@@ -37,13 +38,36 @@ class PoultryInventory(models.Model):
 
     def __str__(self):
         return f"Inventory as of {self.date_updated.date()}"
+    
+class Produce(models.Model):
+    PRODUCE_TYPES = [
+        ('Rice', 'Rice'),
+        ('Maize', 'Maize'),
+        ('Wheat', 'Wheat'),
+        ('Beans', 'Beans'),
+        ('Millet', 'Millet'),
+        ('Other', 'Other'),
+    ]
+
+    produce_type = models.CharField(max_length=50, choices=PRODUCE_TYPES)
+    quantity = models.PositiveIntegerField()  # Quantity in Kg
+    date_recorded = models.DateTimeField(default=now)
 
 class EggProduction(models.Model):
-    eggs_raised = models.PositiveIntegerField()
+    total = models.IntegerField(default=0)
+    eggs_raised = models.PositiveIntegerField(default=0)
+    eggs_incubated = models.PositiveIntegerField(default=1)
     date_recorded = models.DateField(default=timezone.now)
 
     def __str__(self):
         return f"Eggs Raised on {self.date_recorded}"
+
+    def clean(self):
+        from django.core.exceptions import ValidationError
+        
+        # Ensure eggs_incubated is not zero
+        if self.eggs_incubated <= 0:
+            raise ValidationError({'eggs_incubated': "You must incubate at least one egg."})
 
 class DiseaseManagement(models.Model):
     DISEASE_CHOICES = [

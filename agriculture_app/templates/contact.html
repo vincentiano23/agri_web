@@ -5,7 +5,6 @@
 <div class="container my-5">
     <h2 class="text-center mb-4">📞 Contact Us</h2>
 
-    <!-- Display Feedback Messages -->
     {% if messages %}
         {% for message in messages %}
             <div class="alert {% if message.tags %}alert-{{ message.tags }}{% else %}alert-success{% endif %} alert-dismissible fade show" role="alert">
@@ -16,7 +15,6 @@
     {% endif %}
 
     <div class="row">
-        <!-- Contact Details -->
         <div class="col-md-6">
             <h4><i class="fas fa-map-marker-alt"></i> Our Office</h4>
             <p><strong>Address:</strong> Agricultural Extension Services, Nairobi, Kenya</p>

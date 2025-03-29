@@ -2,9 +2,11 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from .models import Product, PoultryInventory, EggProduction, CartItem
+from django.db.models import Sum
+from .models import Product, PoultryInventory, EggProduction, CartItem, Produce
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from .forms import ProductForm, ContactForm
+
 
 
 # Home Page
@@ -134,9 +136,9 @@ def contact_view(request):
     if request.method == 'POST':
         form = ContactForm(request.POST)
         if form.is_valid():
-            form.save()  # Save the message in the database
+            form.save() 
             messages.success(request, "✅ Your message has been sent successfully!")
-            return redirect('contact')  # Redirect to clear the form after submission
+            return redirect('contact')  
     else:
         form = ContactForm()
     
@@ -144,32 +146,78 @@ def contact_view(request):
 
 @login_required(login_url='login')
 def farm_dashboard(request):
-    return render(request, 'dashboard.html')
+    total_produce = EggProduction.objects.aggregate(total_produce=Sum('eggs_raised'))['total_produce'] or 0
+    total_poultry = PoultryInventory.objects.aggregate(
+        total_poultry=Sum('broilers_male') + Sum('broilers_female') + 
+                      Sum('layers_female') + Sum('kienyeji_male') + Sum('kienyeji_female')
+    )['total_poultry'] or 0
+    total_sales = total_produce * 10  # Example: 10 Ksh per egg
+
+    poultry_inventory = PoultryInventory.objects.all()
+    egg_production = EggProduction.objects.all()
+    
+
+    context = {
+        'total_produce': total_produce,
+        'total_poultry': total_poultry,
+        'total_sales': total_sales,
+        'poultry_inventory': poultry_inventory,
+        'egg_production': egg_production,
+      
+    }
+    return render(request, 'dashboard.html', context)
+
 
 @login_required(login_url='login')
 def record_produce(request):
-    return render(request, 'record_produce.html')
+    success_message = None
+
+    if request.method == 'POST':
+        produce_type = request.POST.get('produce_type')
+        quantity = request.POST.get('produce_quantity')
+
+        if produce_type and quantity:
+            Produce.objects.create(produce_type=produce_type, quantity=quantity)
+            success_message = f"{quantity} Kg of {produce_type} recorded successfully!"
+
+    return render(request, 'record_produce.html', {'success_message': success_message})
 
 @login_required(login_url='login')
 def poultry_management(request):
-    if request.method == 'POST':
-        if 'eggs_raised' in request.POST:
-            eggs_raised = request.POST.get('eggs_raised')
-            # Save egg production without affecting inventory
-            EggProduction.objects.create(total_eggs=eggs_raised)
-        else:
-            # Save poultry inventory
-            broilers_male = request.POST.get('broilers_male', 0)
-            broilers_female = request.POST.get('broilers_female', 0)
-            layers_female = request.POST.get('layers_female', 0)
-            kienyeji_male = request.POST.get('kienyeji_male', 0)
-            kienyeji_female = request.POST.get('kienyeji_female', 0)
+    success_message = None
 
-            PoultryInventory.objects.create(
-                broilers_male=broilers_male,
-                broilers_female=broilers_female,
-                layers_female=layers_female,
-                kienyeji_male=kienyeji_male,
-                kienyeji_female=kienyeji_female
-            )
-    return render(request, 'poultry_management.html')
+    # Handle Inventory Form Submission
+    if request.method == 'POST' and 'broilers_male' in request.POST:
+        broilers_male = request.POST.get('broilers_male')
+        broilers_female = request.POST.get('broilers_female')
+        layers_female = request.POST.get('layers_female')
+        kienyeji_male = request.POST.get('kienyeji_male')
+        kienyeji_female = request.POST.get('kienyeji_female')
+
+        # Update or create inventory
+        inventory, created =  PoultryInventory.objects.get_or_create(id=1)
+        inventory.broilers_male = broilers_male
+        inventory.broilers_female = broilers_female
+        inventory.layers_female = layers_female
+        inventory.kienyeji_male = kienyeji_male
+        inventory.kienyeji_female = kienyeji_female
+        inventory.save()
+
+        success_message = "Inventory updated successfully!"
+
+    # Handle Egg Production Form Submission
+    if request.method == 'POST' and 'eggs_raised' in request.POST:
+        eggs_raised = request.POST.get('eggs_raised')
+        EggProduction.objects.create(total=eggs_raised)
+        success_message = "Egg production recorded successfully!"
+
+    inventory =  PoultryInventory.objects.first()
+    egg_production = EggProduction.objects.last()
+
+    context = {
+        'inventory': inventory,
+        'egg_production': egg_production,
+        'success_message': success_message
+    }
+
+    return render(request, 'poultry_management.html', context)

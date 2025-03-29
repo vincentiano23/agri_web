@@ -1,28 +1,37 @@
 {% extends 'base.html' %}
-
 {% block content %}
 <div class="container mt-4">
     <h2 class="text-center mb-4">Record Produce</h2>
+
+    {% if success_message %}
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        {{ success_message }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    {% endif %}
+
     <form method="POST">
         {% csrf_token %}
+
         <div class="mb-3">
-            <label for="date" class="form-label">Date of Harvest</label>
-            <input type="date" class="form-control" id="date" name="date" required>
-        </div>
-        <div class="mb-3">
-            <label for="produce_type" class="form-label">Type of Produce</label>
-            <select class="form-select" id="produce_type" name="produce_type" required>
-                <option selected>Select Produce Type</option>
-                <option value="maize">Maize</option>
-                <option value="beans">Beans</option>
-                <option value="vegetables">Vegetables</option>
+            <label for="produce_type" class="form-label">Select Produce Type</label>
+            <select class="form-control" id="produce_type" name="produce_type" required>
+                <option value="">-- Select Type --</option>
+                <option value="Rice">Rice</option>
+                <option value="Maize">Maize</option>
+                <option value="Wheat">Wheat</option>
+                <option value="Beans">Beans</option>
+                <option value="Millet">Millet</option>
+                <option value="Other">Other</option>
             </select>
         </div>
+
         <div class="mb-3">
-            <label for="quantity" class="form-label">Quantity (in Kg)</label>
-            <input type="number" class="form-control" id="quantity" name="quantity" required>
+            <label for="produce_quantity" class="form-label">Enter Produce Quantity (Kg)</label>
+            <input type="number" class="form-control" id="produce_quantity" name="produce_quantity" min="1" required>
         </div>
-        <button type="submit" class="btn btn-success">Record Produce</button>
+
+        <button type="submit" class="btn btn-success">Submit</button>
     </form>
 </div>
 {% endblock %}

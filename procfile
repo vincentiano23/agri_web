@@ -1,0 +1,1 @@
+gunicorn agriculture_website.wsgi:application
